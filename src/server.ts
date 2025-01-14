@@ -46,7 +46,7 @@ run()
 app.use(e.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "https://second-brain-rosy.vercel.app", // Replace with your frontend's URL
+    origin: "https://second-brain-rosy.vercel.app,http://localhost:5173", // Replace with your frontend's URL
     credentials: true,
 }));
 
