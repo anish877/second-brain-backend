@@ -133,11 +133,7 @@ exports.app.post("/api/v1/signup", async (req, res) => {
         });
         await newUser.save();
         const token = jsonwebtoken_1.default.sign({ userId: newUser._id }, enviormentvariables_1.JWT_SECRET);
-        res.cookie("jwt", token, {
-            httpOnly: true, // Prevents JavaScript access
-            secure: true, // Set to true if you're using HTTPS
-            sameSite: 'lax', // Adjust based on your requirements
-        });
+        res.cookie("jwt", token);
         res.status(200).json({ message: "Signed up", user });
     }
     catch (error) {
@@ -155,11 +151,7 @@ exports.app.post("/api/v1/signin", async (req, res) => {
         if (user.password !== password)
             return res.status(403).json({ message: "Wrong password" });
         const token = jsonwebtoken_1.default.sign({ userId: user._id }, enviormentvariables_1.JWT_SECRET);
-        res.cookie("jwt", token, {
-            httpOnly: true, // Prevents JavaScript access
-            secure: true, // Set to true if you're using HTTPS
-            sameSite: 'lax', // Adjust based on your requirements
-        });
+        res.cookie("jwt", token);
         res.status(200).json({ message: "Signed in", user });
     }
     catch (error) {
