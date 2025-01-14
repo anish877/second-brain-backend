@@ -43,7 +43,7 @@ run()
 exports.app.use(express_1.default.json());
 exports.app.use((0, cookie_parser_1.default)());
 exports.app.use((0, cors_1.default)({
-    origin: "http://localhost:5173", // Replace with your frontend's URL
+    origin: "https://second-brain-rosy.vercel.app", // Replace with your frontend's URL
     credentials: true,
 }));
 // Function to extract YouTube video ID from URL
