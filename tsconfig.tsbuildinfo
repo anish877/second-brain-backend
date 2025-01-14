@@ -1,0 +1,1 @@
+{"root":["./src/server.ts","./src/config/enviormentvariables.ts","./src/middleware/protectroute.ts","./src/models/content.model.ts","./src/models/links.model.ts","./src/models/tag.model.ts","./src/models/users.model.ts"],"version":"5.7.2"}
