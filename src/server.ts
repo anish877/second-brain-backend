@@ -46,8 +46,10 @@ run()
 app.use(e.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "https://second-brain-rosy.vercel.app", // Replace with your frontend's URL
+    origin: "https://second-brain-rosy.vercel.app",
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
 
 
@@ -162,10 +164,11 @@ app.post("/api/v1/signup",async (req,res)=>{
         await newUser.save()
         const token = jwt.sign({userId:newUser._id},JWT_SECRET)
         res.cookie("jwt", token, {
-            httpOnly: false, // Prevents JavaScript access
-            secure: true, // Set to true if you're using HTTPS
-            sameSite: 'lax', // Adjust based on your requirements
-        });  
+            httpOnly: true,
+            secure: true, // Required for HTTPS
+            sameSite: 'none', // Required for cross-origin requests
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        }); 
         res.status(200).json({message: "Signed up",user})
     } catch (error) {
         console.log(error)
@@ -188,9 +191,10 @@ app.post("/api/v1/signin",async (req,res)=>{
             return res.status(403).json({message: "Wrong password"})
         const token = jwt.sign({userId:user._id},JWT_SECRET)
         res.cookie("jwt", token, {
-            httpOnly: false, // Prevents JavaScript access
-            secure: true, // Set to true if you're using HTTPS
-            sameSite: 'lax', // Adjust based on your requirements
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(200).json({message:"Signed in",user})   
     } catch (error) {
