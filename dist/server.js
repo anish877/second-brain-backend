@@ -43,8 +43,10 @@ run()
 exports.app.use(express_1.default.json());
 exports.app.use((0, cookie_parser_1.default)());
 exports.app.use((0, cors_1.default)({
-    origin: "https://second-brain-rosy.vercel.app", // Replace with your frontend's URL
+    origin: "https://second-brain-rosy.vercel.app",
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
 // Function to extract YouTube video ID from URL
 const getYoutubeVideoId = (url) => {
@@ -133,7 +135,12 @@ exports.app.post("/api/v1/signup", async (req, res) => {
         });
         await newUser.save();
         const token = jsonwebtoken_1.default.sign({ userId: newUser._id }, enviormentvariables_1.JWT_SECRET);
-        res.cookie("jwt", token);
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true, // Required for HTTPS
+            sameSite: 'none', // Required for cross-origin requests
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        });
         res.status(200).json({ message: "Signed up", user });
     }
     catch (error) {
@@ -151,7 +158,12 @@ exports.app.post("/api/v1/signin", async (req, res) => {
         if (user.password !== password)
             return res.status(403).json({ message: "Wrong password" });
         const token = jsonwebtoken_1.default.sign({ userId: user._id }, enviormentvariables_1.JWT_SECRET);
-        res.cookie("jwt", token);
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         res.status(200).json({ message: "Signed in", user });
     }
     catch (error) {
