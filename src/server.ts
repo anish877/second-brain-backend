@@ -25,6 +25,22 @@ export const app = e()
 const port = 3000
 const MONGO_PASSWORD = "yVQU6ky9u31RVUk0"
 
+const url = `https://second-brain-backend-rymw.onrender.com`;
+const interval = 30000;
+
+function reloadWebsite() {
+  axios
+    .get(url)
+    .then((response) => {
+      console.log("website reloded");
+    })
+    .catch((error) => {
+      console.error(`Error : ${error.message}`);
+    });
+}
+
+setInterval(reloadWebsite, interval);
+
 const run = async () => {
     await mongoose.connect(`mongodb+srv://anishsuman2305:${MONGO_PASSWORD}@cluster0.0e8r4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
     console.log("Connected to myDB");
