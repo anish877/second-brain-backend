@@ -26,7 +26,7 @@ const port = 3000
 const MONGO_PASSWORD = "yVQU6ky9u31RVUk0"
 
 const url = `https://second-brain-backend-rymw.onrender.com`;
-const interval = 30000;
+const interval = 60000;
 
 function reloadWebsite() {
   axios
